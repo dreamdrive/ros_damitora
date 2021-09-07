@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<robot name="seto_scararobot">
+
+    <link name="world"/>
+
+    <link name="base_link"/>
+
+    <link name="head_1_link"/>
+
+    <link name="head_2_link"/>
+
+    <link name="body_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://damitora_description/meshes/body.stl" />
+            </geometry>
+            <material name="gray">
+                <color rgba="0.5 0.5 0.5 1.0" />
+            </material>
+        </visual>
+    </link>
+
+    <link name="upper_leg_R1_link"/>
+
+    <link name="upper_leg_R2_link"/>
+
+    <link name="upper_leg_R3_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://damitora_description/meshes/upper_leg.stl" />
+            </geometry>
+            <material name="red">
+                <color rgba="1.0 0.0 0.0 1.0" />
+            </material>
+        </visual>
+    </link>
+
+    <link name="lower_leg_R_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://damitora_description/meshes/lower_leg.stl" />
+            </geometry>
+            <material name="green">
+                <color rgba="0.0 1.0 0. 1.0" />
+            </material>
+        </visual>
+    </link>
+
+    <link name="upper_leg_L1_link"/>
+
+    <link name="upper_leg_L2_link"/>
+
+    <link name="upper_leg_L3_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://damitora_description/meshes/upper_leg.stl" />
+            </geometry>
+            <material name="red">
+                <color rgba="1.0 0.0 0.0 1.0" />
+            </material>
+        </visual>
+    </link>
+
+    <link name="lower_leg_L_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://damitora_description/meshes/lower_leg.stl" />
+            </geometry>
+            <material name="green">
+                <color rgba="0.0 1.0 0. 1.0" />
+            </material>
+        </visual>
+    </link>
+
+    <link name="tracker_C_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://damitora_description/meshes/tracker.stl" />
+            </geometry>
+            <material name="black">
+                <color rgba="0.1 0.1 0.1 1.0" />
+            </material>
+        </visual>
+    </link>
+
+    <link name="tracker_R_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://damitora_description/meshes/tracker.stl" />
+            </geometry>
+            <material name="black">
+                <color rgba="0.1 0.1 0.1 1.0" />
+            </material>
+        </visual>
+    </link>
+
+    <link name="tracker_L_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://damitora_description/meshes/tracker.stl" />
+            </geometry>
+            <material name="black">
+                <color rgba="0.1 0.1 0.1 1.0" />
+            </material>
+        </visual>
+    </link>
+
+    <!-- ワールド -->
+
+    <joint name="fixed_world" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+
+    <!-- 首 -->
+
+    <joint name="head_R" type="revolute">
+        <parent link="base_link" />
+        <child link="head_1_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <joint name="head_P" type="revolute">
+        <parent link="head_1_link" />
+        <child link="head_2_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="0 -1 0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <joint name="head_Y" type="revolute">
+        <parent link="head_2_link" />
+        <child link="body_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="0 0 -1" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <!-- 右足 -->
+
+    <joint name="R_upper_leg_Y" type="revolute">
+        <parent link="body_link" />
+        <child link="upper_leg_R1_link" />
+        <origin xyz="0 -0.021 -0.1" rpy="0 0 0" />
+        <axis xyz="0 0 -1" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <joint name="R_upper_leg_R" type="revolute">
+        <parent link="upper_leg_R1_link" />
+        <child link="upper_leg_R2_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <joint name="R_upper_leg_P" type="revolute">
+        <parent link="upper_leg_R2_link" />
+        <child link="upper_leg_R3_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="0 -1 0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <joint name="R_lower_leg_P" type="revolute">
+        <parent link="upper_leg_R3_link" />
+        <child link="lower_leg_R_link" />
+        <origin xyz="0 0 -0.06" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <!-- 左足 -->
+
+    <joint name="L_upper_leg_Y" type="revolute">
+        <parent link="body_link" />
+        <child link="upper_leg_L1_link" />
+        <origin xyz="0 0.021 -0.1" rpy="0 0 0" />
+        <axis xyz="0 0 -1" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <joint name="L_upper_leg_R" type="revolute">
+        <parent link="upper_leg_L1_link" />
+        <child link="upper_leg_L2_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <joint name="L_upper_leg_P" type="revolute">
+        <parent link="upper_leg_L2_link" />
+        <child link="upper_leg_L3_link" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <joint name="L_lower_leg_P" type="revolute">
+        <parent link="upper_leg_L3_link" />
+        <child link="lower_leg_L_link" />
+        <origin xyz="0 0 -0.06" rpy="0 0 0" />
+        <axis xyz="0 -1 0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
+    </joint>
+
+    <!-- トラッカー -->
+
+    <joint name="fixed_tracker_C" type="fixed">
+        <parent link="body_link"/>
+        <child link="tracker_C_link"/>
+        <origin xyz="0.01 0 -0.08" rpy="0 0 0" />
+    </joint>
+
+    <joint name="fixed_tracker_R" type="fixed">
+        <parent link="lower_leg_R_link"/>
+        <child link="tracker_R_link"/>
+        <origin xyz="0.005 0 -0.04" rpy="0 0 0" />
+    </joint>
+
+
+    <joint name="fixed_tracker_L" type="fixed">
+        <parent link="lower_leg_L_link"/>
+        <child link="tracker_L_link"/>
+        <origin xyz="0.005 0 -0.04" rpy="0 0 0" />
+    </joint>
+
+
+
+</robot>

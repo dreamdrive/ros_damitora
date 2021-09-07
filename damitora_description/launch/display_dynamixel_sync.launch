@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Load the seto_scararobot URDF model into the parameter server -->
+    <param name="robot_description" textfile="$(find damitora_description)/urdf/damitora.urdf" />
+
+    <!-- dynamixel controllers -->
+    <include file="$(find damitora_dynamixel)/launch/dynamixel_controllers.launch">
+        <arg name="usb_port"                default="/dev/ttyUSB0"/>
+        <arg name="dxl_baud_rate"           default="1000000"/>
+    </include>
+
+    <!-- robot_state_publisher -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+        <remap from="joint_states" to="/dynamixel_workbench/joint_states"/>
+    </node>
+    <!-- Show in Rviz   -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_description)/rviz/damitora.rviz" />
+</launch>
+
