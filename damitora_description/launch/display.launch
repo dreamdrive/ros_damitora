@@ -14,4 +14,23 @@
 
     <!-- Show in Rviz   -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_description)/rviz/damitora.rviz" />
+
+    <node name="pose_tracker_C" pkg="jsk_topic_tools" type="tf_to_pose.py">
+        <param name="src_frame" value="world"/>
+        <param name="dst_frame" value="tracker_C_link"/>
+        <param name="rate" value="60"/>
+    </node>
+
+    <node name="pose_tracker_R" pkg="jsk_topic_tools" type="tf_to_pose.py">
+        <param name="src_frame" value="world"/>
+        <param name="dst_frame" value="tracker_R_link"/>
+        <param name="rate" value="60"/>
+    </node>
+
+    <node name="pose_tracker_L" pkg="jsk_topic_tools" type="tf_to_pose.py">
+        <param name="src_frame" value="world"/>
+        <param name="dst_frame" value="tracker_L_link"/>
+        <param name="rate" value="60"/>
+    </node>
+
 </launch>

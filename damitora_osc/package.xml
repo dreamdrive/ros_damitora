@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>damitora_osc</name>
+  <version>1.0.0</version>
+  <description>The dreamdrive damitora_osc package</description>\
+  <maintainer email="hirokazu@dream-drive.net">SETOUCHI ROS STUDY GROUP</maintainer>
+  <license>Apache License 2.0</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>urdf</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <depend>std_srvs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>cmake_modules</depend>
+  <depend>yaml-cpp</depend>
+  <depend>std_msgs</depend>
+</package>

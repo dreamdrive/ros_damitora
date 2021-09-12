@@ -1,22 +1,29 @@
-<?xml version="1.0"?>
 <launch>
 
-    <!-- Load the seto_scararobot URDF model into the parameter server -->
+  
     <param name="robot_description" textfile="$(find damitora_description)/urdf/damitora.urdf" />
 
-    <!-- dynamixel controllers -->
-    <include file="$(find damitora_dynamixel)/launch/dynamixel_controllers.launch">
-        <arg name="usb_port"                default="/dev/ttyUSB0"/>
-        <arg name="dxl_baud_rate"           default="1000000"/>
-    </include>
-
-    <!-- robot_state_publisher -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-        <remap from="joint_states" to="/dynamixel_workbench/joint_states"/>
+    <!-- send fake joint values -->
+    <!--
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="TRUE"/>
     </node>
+    -->
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+
+
+
+    <!--<node name="static_transform_publisher" pkg="tf" type="static_transform_publisher"  args="0 0 0 0 0 0 map frame 100" />-->
+
+    
+    <node name="damitora_osc" pkg="damitora_osc" type="damitora_osc" />
+
+    <!-- Combine joint values -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
     <!-- Show in Rviz   -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_description)/rviz/damitora.rviz" />
-    
+
     <node name="pose_tracker_C" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>
         <param name="dst_frame" value="tracker_C_link"/>
@@ -34,6 +41,5 @@
         <param name="dst_frame" value="tracker_L_link"/>
         <param name="rate" value="60"/>
     </node>
-    
-</launch>
 
+</launch>

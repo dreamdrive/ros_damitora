@@ -1,0 +1,12 @@
+<launch>
+
+    <node name="static_transform_publisher" pkg="tf" type="static_transform_publisher"  args="0 0 0 0 0 0 map frame 100" />
+
+    <!--  -->
+    <node name="osc_test" pkg="damitora_osc" type="osc_test" />
+
+    <!-- Show in Rviz   -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_osc)/rviz/damitra_test.rviz" />
+    
+</launch>
+
