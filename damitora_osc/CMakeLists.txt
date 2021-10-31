@@ -136,6 +136,15 @@ add_executable(damitora_osc src/damitora_osc.cpp)
 add_dependencies(damitora_osc ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(damitora_osc oscpack ${LIBS} ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES})
 
+add_executable(damitora_move src/damitora_move.cpp)
+add_dependencies(damitora_move ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(damitora_move oscpack ${LIBS} ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES})
+
+add_executable(damitora_osc_uppbody src/damitora_osc_uppbody.cpp)
+add_dependencies(damitora_osc_uppbody ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(damitora_osc_uppbody oscpack ${LIBS} ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES})
+
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 # src/osc_test.cpp
@@ -202,6 +211,14 @@ install(TARGETS osc_test
 )
 
 install(TARGETS damitora_osc
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(TARGETS damitora_move
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(TARGETS damitora_osc_uppbody
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
