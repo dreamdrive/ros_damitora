@@ -45,5 +45,17 @@
         <param name="dst_frame" value="tracker_L_link"/>
         <param name="rate" value="60"/>
     </node>
+    
+    <node name="pose_tracker_R2" pkg="jsk_topic_tools" type="tf_to_pose.py">
+        <param name="src_frame" value="world"/>
+        <param name="dst_frame" value="tracker_R_link2"/>
+        <param name="rate" value="60"/>
+    </node>
+
+    <node name="pose_tracker_L2" pkg="jsk_topic_tools" type="tf_to_pose.py">
+        <param name="src_frame" value="world"/>
+        <param name="dst_frame" value="tracker_L_link2"/>
+        <param name="rate" value="60"/>
+    </node>
 
 </launch>

@@ -94,17 +94,6 @@
         </visual>
     </link>
 
-    <link name="tracker_R_link2">
-        <visual>
-            <geometry>
-                <mesh filename="package://damitora_description/meshes/tracker.stl" />
-            </geometry>
-            <material name="black">
-                <color rgba="0.1 0.1 0.1 1.0" />
-            </material>
-        </visual>
-    </link>
-
     <link name="tracker_L_link">
         <visual>
             <geometry>
@@ -116,16 +105,6 @@
         </visual>
     </link>
 
-    <link name="tracker_L_link2">
-        <visual>
-            <geometry>
-                <mesh filename="package://damitora_description/meshes/tracker.stl" />
-            </geometry>
-            <material name="black">
-                <color rgba="0.1 0.1 0.1 1.0" />
-            </material>
-        </visual>
-    </link>
     <!-- ワールド -->
 
     <joint name="fixed_world" type="fixed">
@@ -191,7 +170,7 @@
         <child link="lower_leg_R_link" />
         <origin xyz="0 0 -0.06" rpy="0 0 0" />
         <axis xyz="0 1 0" />
-        <limit effort="1000.0" lower="0" upper="3.14159" velocity="2.0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
     </joint>
 
     <!-- 左足 -->
@@ -225,7 +204,7 @@
         <child link="lower_leg_L_link" />
         <origin xyz="0 0 -0.06" rpy="0 0 0" />
         <axis xyz="0 -1 0" />
-        <limit effort="1000.0" lower="-3.14159" upper="0" velocity="2.0" />
+        <limit effort="1000.0" lower="-3.14159" upper="3.14159" velocity="2.0" />
     </joint>
 
     <!-- トラッカー -->
@@ -242,12 +221,6 @@
         <origin xyz="0.005 0 -0.04" rpy="0 0 0" />
     </joint>
 
-    <joint name="fixed_tracker_R2" type="fixed">
-        <parent link="upper_leg_R3_link"/>
-        <child link="tracker_R_link2"/>
-        <origin xyz="0.007 0 -0.03" rpy="0 0 0" />
-    </joint>
-
 
     <joint name="fixed_tracker_L" type="fixed">
         <parent link="lower_leg_L_link"/>
@@ -255,10 +228,6 @@
         <origin xyz="0.005 0 -0.04" rpy="0 0 0" />
     </joint>
 
-    <joint name="fixed_tracker_L2" type="fixed">
-        <parent link="upper_leg_L3_link"/>
-        <child link="tracker_L_link2"/>
-        <origin xyz="0.007 0 -0.03" rpy="0 0 0" />
-    </joint>
+
 
 </robot>

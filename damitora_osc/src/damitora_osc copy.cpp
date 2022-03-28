@@ -42,8 +42,6 @@
 geometry_msgs::Pose poseC;
 geometry_msgs::Pose poseR;
 geometry_msgs::Pose poseL;
-geometry_msgs::Pose poseR2;
-geometry_msgs::Pose poseL2;
 
 // コールバックがあるとグローバルに読み込み
 void trackerC_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
@@ -79,30 +77,6 @@ void trackerL_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   poseL.orientation.y = msg->pose.orientation.y;
   poseL.orientation.z = msg->pose.orientation.z;
   poseL.orientation.w = msg->pose.orientation.w;
-}
-
-// コールバックがあるとグローバルに読み込み
-void trackerR2_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
-{
-  poseR2.position.x = msg->pose.position.x;
-  poseR2.position.y = msg->pose.position.y;
-  poseR2.position.z = msg->pose.position.z;
-  poseR2.orientation.x = msg->pose.orientation.x;
-  poseR2.orientation.y = msg->pose.orientation.y;
-  poseR2.orientation.z = msg->pose.orientation.z;
-  poseR2.orientation.w = msg->pose.orientation.w;
-}
-
-// コールバックがあるとグローバルに読み込み
-void trackerL2_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
-{
-  poseL2.position.x = msg->pose.position.x;
-  poseL2.position.y = msg->pose.position.y;
-  poseL2.position.z = msg->pose.position.z;
-  poseL2.orientation.x = msg->pose.orientation.x;
-  poseL2.orientation.y = msg->pose.orientation.y;
-  poseL2.orientation.z = msg->pose.orientation.z;
-  poseL2.orientation.w = msg->pose.orientation.w;
 }
 
 // クオタニオンからオイラー角に変換する関数
@@ -161,22 +135,6 @@ int main(int argc, char **argv)
   float rotation_z2 = 0.0;
   float rotation_w2 = 1.0;
 
-  float position_x3 = 0.0;
-  float position_y3 = 0.0;
-  float position_z3 = 0.0;
-  float rotation_x3 = 0.0;
-  float rotation_y3 = 0.0;
-  float rotation_z3 = 0.0;
-  float rotation_w3 = 1.0;
-
-  float position_x4 = 0.0;
-  float position_y4 = 0.0;
-  float position_z4 = 0.0;
-  float rotation_x4 = 0.0;
-  float rotation_y4 = 0.0;
-  float rotation_z4 = 0.0;
-  float rotation_w4 = 1.0;
-
   //(void)argc; // suppress unused parameter warnings
   //(void)argv; // suppress unused parameter warnings
 
@@ -199,15 +157,6 @@ int main(int argc, char **argv)
   double rotation_pitch2;
   double rotation_yaw2;
 
-  double rotation_roll3;
-  double rotation_pitch3;
-  double rotation_yaw3;
-
-  double rotation_roll4;
-  double rotation_pitch4;
-  double rotation_yaw4;
-
-
   int deg_roll;
   int deg_pitch;
   int deg_yaw;
@@ -219,14 +168,6 @@ int main(int argc, char **argv)
   int deg_roll2;
   int deg_pitch2;
   int deg_yaw2;
-
-  int deg_roll3;
-  int deg_pitch3;
-  int deg_yaw3;
-
-  int deg_roll4;
-  int deg_pitch4;
-  int deg_yaw4;
 
   // だみとら表示用
 
@@ -242,13 +183,6 @@ int main(int argc, char **argv)
   ros::Subscriber sub_trackerL;
   sub_trackerL = nh.subscribe("/pose_tracker_L/output", 60, trackerL_Callback);
 
-  //サブスクライバの作成 (移動先の指示)
-  ros::Subscriber sub_trackerR2;
-  sub_trackerR2 = nh.subscribe("/pose_tracker_R2/output", 60, trackerR2_Callback);
-
-  //サブスクライバの作成 (移動先の指示)
-  ros::Subscriber sub_trackerL2;
-  sub_trackerL2 = nh.subscribe("/pose_tracker_L2/output", 60, trackerL2_Callback);
 
   ros::Rate loop_rate(60); // 制御周期60Hz
 
@@ -284,22 +218,6 @@ int main(int argc, char **argv)
     rotation_z2 = poseL.orientation.x;
     rotation_w2 = - poseL.orientation.w;
 
-    position_x3 = - poseR2.position.y * 7;
-    position_y3 = poseR2.position.z * 7;
-    position_z3 = poseR2.position.x * 7;
-    rotation_x3 = - poseR2.orientation.y;
-    rotation_y3 = poseR2.orientation.z;
-    rotation_z3 = poseR2.orientation.x;
-    rotation_w3 = - poseR2.orientation.w;
-
-    position_x4 = - poseL2.position.y * 7;
-    position_y4 = poseL2.position.z * 7;
-    position_z4 = poseL2.position.x * 7;
-    rotation_x4 = - poseL2.orientation.y;
-    rotation_y4 = poseL2.orientation.z;
-    rotation_z4 = poseL2.orientation.x;
-    rotation_w4 = - poseL2.orientation.w;
-
     // ROSからUnityへの座標変換------------------------------
 
     // OSCの送信 -----------------------------------------------------
@@ -313,10 +231,6 @@ int main(int argc, char **argv)
       << (int)2 << (int)1 << (float)0 << position_x1 << position_y1 << position_z1 << rotation_x1 << rotation_y1 << rotation_z1 << rotation_w1 << "HMD" << osc::EndMessage
       << osc::BeginMessage("/VMT/Follow/Unity")
       << (int)0 << (int)1 << (float)0 << position_x2 << position_y2 << position_z2 << rotation_x2 << rotation_y2 << rotation_z2 << rotation_w2 << "HMD" << osc::EndMessage
-      << osc::BeginMessage("/VMT/Follow/Unity")
-      << (int)3 << (int)1 << (float)0 << position_x3 << position_y3 << position_z3 << rotation_x3 << rotation_y3 << rotation_z3 << rotation_w3 << "HMD" << osc::EndMessage
-      << osc::BeginMessage("/VMT/Follow/Unity")
-      << (int)4 << (int)1 << (float)0 << position_x4 << position_y4 << position_z4 << rotation_x4 << rotation_y4 << rotation_z4 << rotation_w4 << "HMD" << osc::EndMessage
       << osc::EndBundle;
 
     transmitSocket.Send(p.Data(), p.Size());
@@ -329,8 +243,6 @@ int main(int argc, char **argv)
     QuaternionToEulerAngles(rotation_x, rotation_y, rotation_z, rotation_w, rotation_roll, rotation_pitch, rotation_yaw);
     QuaternionToEulerAngles(rotation_x1, rotation_y1, rotation_z1, rotation_w1, rotation_roll1, rotation_pitch1, rotation_yaw1);
     QuaternionToEulerAngles(rotation_x2, rotation_y2, rotation_z2, rotation_w2, rotation_roll2, rotation_pitch2, rotation_yaw2);
-    QuaternionToEulerAngles(rotation_x3, rotation_y3, rotation_z3, rotation_w3, rotation_roll3, rotation_pitch3, rotation_yaw3);
-    QuaternionToEulerAngles(rotation_x4, rotation_y4, rotation_z4, rotation_w4, rotation_roll4, rotation_pitch4, rotation_yaw4);
 
     // rad to deg
     deg_roll = rotation_roll*(180/M_PI);
@@ -343,13 +255,6 @@ int main(int argc, char **argv)
     deg_pitch2 = rotation_pitch2*(180/M_PI);
     deg_yaw2 = rotation_yaw2*(180/M_PI);
 
-    deg_roll3 = rotation_roll3*(180/M_PI);
-    deg_pitch3 = rotation_pitch3*(180/M_PI);
-    deg_yaw3 = rotation_yaw3*(180/M_PI);
-
-    deg_roll4 = rotation_roll4*(180/M_PI);
-    deg_pitch4 = rotation_pitch4*(180/M_PI);
-    deg_yaw4 = rotation_yaw4*(180/M_PI);
 
     ROS_ERROR("-------------------------------------");
     ROS_ERROR("%d , %d , %d",(int)(position_x2*1000), (int)(position_y2*1000)+1400,(int)(position_z2*1000));
@@ -360,12 +265,6 @@ int main(int argc, char **argv)
 
     ROS_ERROR("%d , %d , %d",(int)(position_x1*1000), (int)(position_y1*1000)+1400,(int)(position_z1*1000));
     ROS_ERROR("%d , %d , %d",deg_roll1, deg_yaw1,deg_pitch1);
-
-    ROS_ERROR("%d , %d , %d",(int)(position_x3*1000), (int)(position_y3*1000)+1400,(int)(position_z3*1000));
-    ROS_ERROR("%d , %d , %d",deg_roll3, deg_yaw3 ,deg_pitch3);
-
-    ROS_ERROR("%d , %d , %d",(int)(position_x4*1000), (int)(position_y4*1000)+1400,(int)(position_z4*1000));
-    ROS_ERROR("%d , %d , %d",deg_roll4, deg_yaw4,deg_pitch4);
 
     // だみとら用
 
