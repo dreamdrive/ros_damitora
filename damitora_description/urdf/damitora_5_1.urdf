@@ -38,21 +38,10 @@
     <link name="lower_leg_R_link">
         <visual>
             <geometry>
-                <mesh filename="package://damitora_description/meshes/lower_leg2_1.stl" />
+                <mesh filename="package://damitora_description/meshes/lower_leg.stl" />
             </geometry>
             <material name="green">
                 <color rgba="0.0 1.0 0. 1.0" />
-            </material>
-        </visual>
-    </link>
-
-    <link name="Foot_R_link">
-        <visual>
-            <geometry>
-                <mesh filename="package://damitora_description/meshes/lower_leg2_2.stl" />
-            </geometry>
-            <material name="blue">
-                <color rgba="0.0 0.0 1.0 1.0" />
             </material>
         </visual>
     </link>
@@ -75,21 +64,10 @@
     <link name="lower_leg_L_link">
         <visual>
             <geometry>
-                <mesh filename="package://damitora_description/meshes/lower_leg2_1.stl" />
+                <mesh filename="package://damitora_description/meshes/lower_leg.stl" />
             </geometry>
             <material name="green">
                 <color rgba="0.0 1.0 0. 1.0" />
-            </material>
-        </visual>
-    </link>
-
-    <link name="Foot_L_link">
-        <visual>
-            <geometry>
-                <mesh filename="package://damitora_description/meshes/lower_leg2_2.stl" />
-            </geometry>
-            <material name="blue">
-                <color rgba="0.0 0.0 1.0 1.0" />
             </material>
         </visual>
     </link>
@@ -216,14 +194,6 @@
         <limit effort="1000.0" lower="0" upper="3.14159" velocity="2.0" />
     </joint>
 
-    <joint name="R_foot_P" type="revolute">
-        <parent link="lower_leg_R_link" />
-        <child link="Foot_R_link" />
-        <origin xyz="0 0 -0.06" rpy="0 0 0" />
-        <axis xyz="0 1 0" />
-        <limit effort="1000.0" lower="0" upper="3.14159" velocity="2.0" />
-    </joint>
-
     <!-- 左足 -->
 
     <joint name="L_upper_leg_Y" type="revolute">
@@ -258,14 +228,6 @@
         <limit effort="1000.0" lower="-3.14159" upper="0" velocity="2.0" />
     </joint>
 
-    <joint name="L_foot_P" type="revolute">
-        <parent link="lower_leg_L_link" />
-        <child link="Foot_L_link" />
-        <origin xyz="0 0 -0.06" rpy="0 0 0" />
-        <axis xyz="0 1 0" />
-        <limit effort="1000.0" lower="0" upper="3.14159" velocity="2.0" />
-    </joint>
-
     <!-- トラッカー -->
 
     <joint name="fixed_tracker_C" type="fixed">
@@ -275,9 +237,9 @@
     </joint>
 
     <joint name="fixed_tracker_R" type="fixed">
-        <parent link="Foot_R_link"/>
+        <parent link="lower_leg_R_link"/>
         <child link="tracker_R_link"/>
-        <origin xyz="0.012 0 0.002" rpy="0 -1.3 0" />
+        <origin xyz="0.005 0 -0.04" rpy="0 0 0" />
     </joint>
 
     <joint name="fixed_tracker_R2" type="fixed">
@@ -288,9 +250,9 @@
 
 
     <joint name="fixed_tracker_L" type="fixed">
-        <parent link="Foot_L_link"/>
+        <parent link="lower_leg_L_link"/>
         <child link="tracker_L_link"/>
-        <origin xyz="0.012 0 0.002" rpy="0 -1.3 0" />
+        <origin xyz="0.005 0 -0.04" rpy="0 0 0" />
     </joint>
 
     <joint name="fixed_tracker_L2" type="fixed">

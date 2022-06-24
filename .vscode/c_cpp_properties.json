@@ -1,0 +1,22 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/hirokazu/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/hirokazu/catkin_ws/src/damitora/damitora_osc/include/**",
+        "/home/hirokazu/catkin_ws/src/futaba_rs/include/**",
+        "/home/hirokazu/catkin_ws/src/seto_scararobot3/seto_scararobot2/include/**",
+        "/home/hirokazu/catkin_ws/src/upperbody2/upperbody2_description/include/**",
+        "/home/hirokazu/catkin_ws/src/vrc_world/vrc_world_osc/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}
