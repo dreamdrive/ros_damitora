@@ -286,7 +286,6 @@
         <origin xyz="0.007 0 -0.03" rpy="0 0 0" />
     </joint>
 
-
     <joint name="fixed_tracker_L" type="fixed">
         <parent link="Foot_L_link"/>
         <child link="tracker_L_link"/>

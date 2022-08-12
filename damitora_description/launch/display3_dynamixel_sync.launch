@@ -2,7 +2,7 @@
 <launch>
 
     <!-- Load the seto_scararobot URDF model into the parameter server -->
-    <param name="robot_description" textfile="$(find damitora_description)/urdf/damitora.urdf" />
+    <param name="robot_description" textfile="$(find damitora_description)/urdf/damitora3.urdf" />
 
     <!-- dynamixel controllers -->
     <include file="$(find damitora_dynamixel)/launch/dynamixel_controllers.launch">
@@ -15,7 +15,7 @@
         <remap from="joint_states" to="/dynamixel_workbench/joint_states"/>
     </node>
     <!-- Show in Rviz   -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_description)/rviz/damitora.rviz" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_description)/rviz/damitora3.rviz" />
     
     <node name="pose_tracker_C" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>

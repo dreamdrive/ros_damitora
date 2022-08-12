@@ -1,4 +1,4 @@
-// Copyright 2020-2021 SETOUCHI ROS STUDY GROUP
+// Copyright 2020-2021 Dream Drive !!
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// POSEを拾ってOSCにパスする
+// 
+// だみとらの3つのトラッカー座標をOCSに渡すノード
+// 
 
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
@@ -35,8 +37,8 @@
 #include "ip/UdpSocket.h"
 
 #define PI 3.14159265358979
-#define ADDRESS "192.168.7.106"      // VMTのアドレス
-#define PORT 39570                  // VMTの待受ポート
+#define ADDRESS "192.168.7.106" // VMTのアドレス
+#define PORT 39570              // VMTの待受ポート
 #define OUTPUT_BUFFER_SIZE 1024
 
 geometry_msgs::Pose poseC;
@@ -44,7 +46,7 @@ geometry_msgs::Pose poseR;
 geometry_msgs::Pose poseL;
 
 // コールバックがあるとグローバルに読み込み
-void trackerC_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+void trackerC_Callback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
   poseC.position.x = msg->pose.position.x;
   poseC.position.y = msg->pose.position.y;
@@ -56,7 +58,7 @@ void trackerC_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 }
 
 // コールバックがあるとグローバルに読み込み
-void trackerR_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+void trackerR_Callback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
   poseR.position.x = msg->pose.position.x;
   poseR.position.y = msg->pose.position.y;
@@ -68,7 +70,7 @@ void trackerR_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 }
 
 // コールバックがあるとグローバルに読み込み
-void trackerL_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+void trackerL_Callback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
   poseL.position.x = msg->pose.position.x;
   poseL.position.y = msg->pose.position.y;
@@ -80,32 +82,30 @@ void trackerL_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 }
 
 // クオタニオンからオイラー角に変換する関数
-void QuaternionToEulerAngles(double q0, double q1, double q2, double q3, double& roll, double& pitch, double& yaw)
+void QuaternionToEulerAngles(double q0, double q1, double q2, double q3, double &roll, double &pitch, double &yaw)
 {
-    double q0q0 = q0 * q0;
-    double q0q1 = q0 * q1;
-    double q0q2 = q0 * q2;
-    double q0q3 = q0 * q3;
-    double q1q1 = q1 * q1;
-    double q1q2 = q1 * q2;
-    double q1q3 = q1 * q3;
-    double q2q2 = q2 * q2;
-    double q2q3 = q2 * q3;
-    double q3q3 = q3 * q3;
-    roll = atan2(2.0 * (q2q3 + q0q1), q0q0 - q1q1 - q2q2 + q3q3);
-    // pitch = asin(2.0 * (q0q2 - q1q3));
-    // yaw = atan2(2.0 * (q1q2 + q0q3), q0q0 + q1q1 - q2q2 - q3q3);
-    // ROSからUnityで本来とピッチとヨーが逆になる、かつピッチの符号が逆になる
-    yaw = asin(2.0 * (q0q2 - q1q3));
-    pitch = atan2(2.0 * (q1q2 + q0q3), -(q0q0 + q1q1 - q2q2 - q3q3));
+  double q0q0 = q0 * q0;
+  double q0q1 = q0 * q1;
+  double q0q2 = q0 * q2;
+  double q0q3 = q0 * q3;
+  double q1q1 = q1 * q1;
+  double q1q2 = q1 * q2;
+  double q1q3 = q1 * q3;
+  double q2q2 = q2 * q2;
+  double q2q3 = q2 * q3;
+  double q3q3 = q3 * q3;
+  roll = atan2(2.0 * (q2q3 + q0q1), q0q0 - q1q1 - q2q2 + q3q3);
+  // pitch = asin(2.0 * (q0q2 - q1q3));
+  // yaw = atan2(2.0 * (q1q2 + q0q3), q0q0 + q1q1 - q2q2 - q3q3);
+  // ROSからUnityで本来とピッチとヨーが逆になる、かつピッチの符号が逆になる
+  yaw = asin(2.0 * (q0q2 - q1q3));
+  pitch = atan2(2.0 * (q1q2 + q0q3), -(q0q0 + q1q1 - q2q2 - q3q3));
 }
-
 
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "damitora_osc"); // ノードの初期化
-  ros::NodeHandle nh;                // ノードハンドラ
-
+  ros::NodeHandle nh;                    // ノードハンドラ
 
   // OSC -----------------------------
 
@@ -183,7 +183,6 @@ int main(int argc, char **argv)
   ros::Subscriber sub_trackerL;
   sub_trackerL = nh.subscribe("/pose_tracker_L/output", 60, trackerL_Callback);
 
-
   ros::Rate loop_rate(60); // 制御周期60Hz
 
   while (ros::ok())
@@ -194,29 +193,29 @@ int main(int argc, char **argv)
     // Position: ROS(x,y,z) -> Unity(-y,z,x)
     // Quaternion: ROS(x,y,z,w) -> Unity(-y,z,x,-w)
 
-    position_x = - poseC.position.y * 7;
+    position_x = -poseC.position.y * 7;
     position_y = poseC.position.z * 7;
     position_z = poseC.position.x * 7;
-    rotation_x = - poseC.orientation.y;
+    rotation_x = -poseC.orientation.y;
     rotation_y = poseC.orientation.z;
     rotation_z = poseC.orientation.x;
-    rotation_w = - poseC.orientation.w;
+    rotation_w = -poseC.orientation.w;
 
-    position_x1 = - poseR.position.y * 7;
+    position_x1 = -poseR.position.y * 7;
     position_y1 = poseR.position.z * 7;
     position_z1 = poseR.position.x * 7;
-    rotation_x1 = - poseR.orientation.y;
+    rotation_x1 = -poseR.orientation.y;
     rotation_y1 = poseR.orientation.z;
     rotation_z1 = poseR.orientation.x;
-    rotation_w1 = - poseR.orientation.w;
+    rotation_w1 = -poseR.orientation.w;
 
-    position_x2 = - poseL.position.y * 7;
+    position_x2 = -poseL.position.y * 7;
     position_y2 = poseL.position.z * 7;
     position_z2 = poseL.position.x * 7;
-    rotation_x2 = - poseL.orientation.y;
+    rotation_x2 = -poseL.orientation.y;
     rotation_y2 = poseL.orientation.z;
     rotation_z2 = poseL.orientation.x;
-    rotation_w2 = - poseL.orientation.w;
+    rotation_w2 = -poseL.orientation.w;
 
     // ROSからUnityへの座標変換------------------------------
 
@@ -245,29 +244,27 @@ int main(int argc, char **argv)
     QuaternionToEulerAngles(rotation_x2, rotation_y2, rotation_z2, rotation_w2, rotation_roll2, rotation_pitch2, rotation_yaw2);
 
     // rad to deg
-    deg_roll = rotation_roll*(180/M_PI);
-    deg_pitch = rotation_pitch*(180/M_PI);
-    deg_yaw = rotation_yaw*(180/M_PI);
-    deg_roll1 = rotation_roll1*(180/M_PI);
-    deg_pitch1 = rotation_pitch1*(180/M_PI);
-    deg_yaw1 = rotation_yaw1*(180/M_PI);
-    deg_roll2 = rotation_roll2*(180/M_PI);
-    deg_pitch2 = rotation_pitch2*(180/M_PI);
-    deg_yaw2 = rotation_yaw2*(180/M_PI);
+    deg_roll = rotation_roll * (180 / M_PI);
+    deg_pitch = rotation_pitch * (180 / M_PI);
+    deg_yaw = rotation_yaw * (180 / M_PI);
+    deg_roll1 = rotation_roll1 * (180 / M_PI);
+    deg_pitch1 = rotation_pitch1 * (180 / M_PI);
+    deg_yaw1 = rotation_yaw1 * (180 / M_PI);
+    deg_roll2 = rotation_roll2 * (180 / M_PI);
+    deg_pitch2 = rotation_pitch2 * (180 / M_PI);
+    deg_yaw2 = rotation_yaw2 * (180 / M_PI);
 
+    ROS_DEBUG("-------------------------------------");
+    ROS_DEBUG("%d , %d , %d", (int)(position_x2 * 1000), (int)(position_y2 * 1000) + 1400, (int)(position_z2 * 1000));
+    ROS_DEBUG("%d , %d , %d", deg_roll2, deg_yaw2, deg_pitch2);
 
-    ROS_ERROR("-------------------------------------");
-    ROS_ERROR("%d , %d , %d",(int)(position_x2*1000), (int)(position_y2*1000)+1400,(int)(position_z2*1000));
-    ROS_ERROR("%d , %d , %d",deg_roll2, deg_yaw2, deg_pitch2);
+    ROS_DEBUG("%d , %d , %d", (int)(position_x * 1000), (int)(position_y * 1000) + 1400, (int)(position_z * 1000));
+    ROS_DEBUG("%d , %d , %d", deg_roll, deg_yaw, deg_pitch);
 
-    ROS_ERROR("%d , %d , %d",(int)(position_x*1000), (int)(position_y*1000)+1400,(int)(position_z*1000));
-    ROS_ERROR("%d , %d , %d",deg_roll, deg_yaw,deg_pitch);
-
-    ROS_ERROR("%d , %d , %d",(int)(position_x1*1000), (int)(position_y1*1000)+1400,(int)(position_z1*1000));
-    ROS_ERROR("%d , %d , %d",deg_roll1, deg_yaw1,deg_pitch1);
+    ROS_DEBUG("%d , %d , %d", (int)(position_x1 * 1000), (int)(position_y1 * 1000) + 1400, (int)(position_z1 * 1000));
+    ROS_DEBUG("%d , %d , %d", deg_roll1, deg_yaw1, deg_pitch1);
 
     // だみとら用
-
 
     ros::spinOnce(); // コールバック関数を呼ぶ
     loop_rate.sleep();

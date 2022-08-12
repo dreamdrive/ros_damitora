@@ -1,5 +1,5 @@
 <launch>
-    <param name="robot_description" textfile="$(find damitora_description)/urdf/damitora.urdf" />
+    <param name="robot_description" textfile="$(find damitora_description)/urdf/damitora3.urdf" />
 
     <!-- send fake joint values -->
     <!--
@@ -13,7 +13,7 @@
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
     <!-- Show in Rviz   -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_description)/rviz/damitora.rviz" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_description)/rviz/damitora3.rviz" />
 
     <node name="pose_tracker_C" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>
@@ -27,21 +27,9 @@
         <param name="rate" value="60"/>
     </node>
 
-    <node name="pose_tracker_R2" pkg="jsk_topic_tools" type="tf_to_pose.py">
-        <param name="src_frame" value="world"/>
-        <param name="dst_frame" value="tracker_R_link2"/>
-        <param name="rate" value="60"/>
-    </node>
-
     <node name="pose_tracker_L" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>
         <param name="dst_frame" value="tracker_L_link"/>
-        <param name="rate" value="60"/>
-    </node>
-
-    <node name="pose_tracker_L2" pkg="jsk_topic_tools" type="tf_to_pose.py">
-        <param name="src_frame" value="world"/>
-        <param name="dst_frame" value="tracker_L_link2"/>
         <param name="rate" value="60"/>
     </node>
 

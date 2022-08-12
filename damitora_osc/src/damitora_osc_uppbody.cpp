@@ -1,4 +1,4 @@
-// Copyright 2020-2021 SETOUCHI ROS STUDY GROUP
+// Copyright 2020-2021 Dream Drive !!
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// POSEを拾ってOSCにパスする
+//
+// だみとら物理コントローラーの代わりに別プロジェクトの「上半身ロボット」に接続して、上半身をコントロールするノード 
+//   Steam VR側で、２つのトラッカーを左右のコントローラーにオーバーライドする設定が必要
+//     POSEを拾ってOSCにパスする
+//
 
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
@@ -27,10 +31,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
-//#include <math.h>
 
 #include <geometry_msgs/PoseStamped.h>
-//#include <geometry_msgs/Pose.h>
 #include <tf/transform_broadcaster.h>
 
 #include "osc/OscOutboundPacketStream.h"
@@ -45,20 +47,9 @@
 geometry_msgs::Pose poseR;
 geometry_msgs::Pose poseL;
 
-// コールバックがあるとグローバルに読み込み
-// void trackerC_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
-// {
-//   poseC.position.x = msg->pose.position.x;
-//   poseC.position.y = msg->pose.position.y;
-//   poseC.position.z = msg->pose.position.z;
-//   poseC.orientation.x = msg->pose.orientation.x;
-//   poseC.orientation.y = msg->pose.orientation.y;
-//   poseC.orientation.z = msg->pose.orientation.z;
-//   poseC.orientation.w = msg->pose.orientation.w;
-// }
 
 // コールバックがあるとグローバルに読み込み
-void trackerR_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+void trackerR_Callback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
   poseR.position.x = msg->pose.position.x;
   poseR.position.y = msg->pose.position.y;
@@ -70,7 +61,7 @@ void trackerR_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 }
 
 // コールバックがあるとグローバルに読み込み
-void trackerL_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+void trackerL_Callback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
   poseL.position.x = msg->pose.position.x;
   poseL.position.y = msg->pose.position.y;
@@ -81,24 +72,14 @@ void trackerL_Callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
   poseL.orientation.w = msg->pose.orientation.w;
 }
 
-
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "damitora_osc"); // ノードの初期化
-  ros::NodeHandle nh;                // ノードハンドラ
-
+  ros::NodeHandle nh;                    // ノードハンドラ
 
   // OSC -----------------------------
 
   int i = 0;
-
-  // float position_x = 0.0;
-  // float position_y = 0.0;
-  // float position_z = 0.0;
-  // float rotation_x = 0.0;
-  // float rotation_y = 0.0;
-  // float rotation_z = 0.0;
-  // float rotation_w = 1.0;
 
   float position_x1 = 0.0;
   float position_y1 = 0.0;
@@ -116,19 +97,10 @@ int main(int argc, char **argv)
   float rotation_z2 = 0.0;
   float rotation_w2 = 1.0;
 
-  //(void)argc; // suppress unused parameter warnings
-  //(void)argv; // suppress unused parameter warnings
-
   UdpTransmitSocket transmitSocket(IpEndpointName(ADDRESS, PORT));
   char buffer[OUTPUT_BUFFER_SIZE];
 
   // OSC -----------------------------
-
-
-
-  // //サブスクライバの作成 (移動先の指示)
-  // ros::Subscriber sub_trackerC;
-  // sub_trackerC = nh.subscribe("/pose_tracker_C/output", 60, trackerC_Callback);
 
   //サブスクライバの作成 (移動先の指示)
   ros::Subscriber sub_trackerR;
@@ -138,80 +110,26 @@ int main(int argc, char **argv)
   ros::Subscriber sub_trackerL;
   sub_trackerL = nh.subscribe("/pose_tracker_L/output", 60, trackerL_Callback);
 
-
   ros::Rate loop_rate(60); // 制御周期60Hz
 
   while (ros::ok())
   {
 
-    // i++;
-    // if (i == 360) i = 0;
+    position_x1 = -poseR.position.y * 3;
+    position_y1 = poseR.position.z * 3 - 0.9;
+    position_z1 = poseR.position.x * 3;
+    rotation_x1 = -poseR.orientation.y;
+    rotation_y1 = poseR.orientation.z;
+    rotation_z1 = poseR.orientation.x;
+    rotation_w1 = -poseR.orientation.w;
 
-    // position_x = 0.5 * (float)sin(PI * i / 180);
-    // position_z = 0.5 * (float)cos(PI * i / 180);
-    // position_x1 = 0.5 * (float)sin(PI * (i + 120) / 180);
-    // position_z1 = 0.5 * (float)cos(PI * (i + 120) / 180);
-    // position_x2 = 0.5 * (float)sin(PI * (i + 240) / 180);
-    // position_z2 = 0.5 * (float)cos(PI * (i + 240) / 180);
-
-
-  // poseC.pose.position.x = position_x;
-  // poseC.pose.position.y = position_z;
-  // poseC.pose.position.z = 0;
-
-
-  // poseR.pose.position.x = position_x1;
-  // poseR.pose.position.y = position_z1;
-  // poseR.pose.position.z = 0;
-
-
-  // poseL.pose.position.x = position_x2;
-  // poseL.pose.position.y = position_z2;
-  // poseL.pose.position.z = 0;
-
-
-    // printf("pos0 : %2.5f , %2.5f | ", position_x, position_z);
-    // printf("pos1 : %2.5f , %2.5f | ", position_x1, position_z1);
-    // printf("pos2 : %2.5f , %2.5f\n", position_x2, position_z2);
-
-    //std::cout << "Hello!" << std::endl;
-
-
-
- // ROS -> Unity
- // Position: ROS(x,y,z) -> Unity(-y,z,x)
- // Quaternion: ROS(x,y,z,w) -> Unity(-y,z,x,-w)
-
-  // position_x = - poseC.position.y * 7;
-  // position_y = poseC.position.z * 7;
-  // position_z = poseC.position.x * 7;
-  // rotation_x = - poseC.orientation.y;
-  // rotation_y = poseC.orientation.z;
-  // rotation_z = poseC.orientation.x;
-  // rotation_w = - poseC.orientation.w;
-
-  position_x1 = - poseR.position.y * 3;
-  position_y1 = poseR.position.z * 3 -0.9;
-  position_z1 = poseR.position.x * 3;
-  rotation_x1 = - poseR.orientation.y;
-  rotation_y1 = poseR.orientation.z;
-  rotation_z1 = poseR.orientation.x;
-  rotation_w1 = - poseR.orientation.w;
-
-  position_x2 = - poseL.position.y * 3;
-  position_y2 = poseL.position.z * 3 -0.9;
-  position_z2 = poseL.position.x * 3;
-  rotation_x2 = - poseL.orientation.y;
-  rotation_y2 = poseL.orientation.z;
-  rotation_z2 = poseL.orientation.x;
-  rotation_w2 = - poseL.orientation.w;
-
-
-
-
-
-
-
+    position_x2 = -poseL.position.y * 3;
+    position_y2 = poseL.position.z * 3 - 0.9;
+    position_z2 = poseL.position.x * 3;
+    rotation_x2 = -poseL.orientation.y;
+    rotation_y2 = poseL.orientation.z;
+    rotation_z2 = poseL.orientation.x;
+    rotation_w2 = -poseL.orientation.w;
 
     osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE); // 毎回初期化
 
@@ -224,9 +142,7 @@ int main(int argc, char **argv)
       << (int)1 << (int)1 << (float)0 << position_x2 << position_y2 << position_z2 << rotation_x2 << rotation_y2 << rotation_z2 << rotation_w2 << "HMD" << osc::EndMessage
       << osc::EndBundle;
 
-
     transmitSocket.Send(p.Data(), p.Size());
-
 
     ros::spinOnce(); // コールバック関数を呼ぶ
     loop_rate.sleep();

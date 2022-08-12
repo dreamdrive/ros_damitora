@@ -109,8 +109,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-#  LIBRARIES seto_scararobot
+  INCLUDE_DIRS # include
+#  LIBRARIES damitora_osc
 #  CATKIN_DEPENDS roscpp rospy urdf
 #  DEPENDS system_lib
   CATKIN_DEPENDS roscpp std_srvs sensor_msgs trajectory_msgs geometry_msgs cmake_modules std_msgs rospy urdf
@@ -136,6 +136,10 @@ add_executable(damitora_osc src/damitora_osc.cpp)
 add_dependencies(damitora_osc ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(damitora_osc oscpack ${LIBS} ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES})
 
+add_executable(damitora_osc3 src/damitora_osc3.cpp)
+add_dependencies(damitora_osc3 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(damitora_osc3 oscpack ${LIBS} ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES})
+
 add_executable(damitora_move src/damitora_move.cpp)
 add_dependencies(damitora_move ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(damitora_move oscpack ${LIBS} ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES})
@@ -143,7 +147,6 @@ target_link_libraries(damitora_move oscpack ${LIBS} ${catkin_LIBRARIES} ${YAML_C
 add_executable(damitora_osc_uppbody src/damitora_osc_uppbody.cpp)
 add_dependencies(damitora_osc_uppbody ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(damitora_osc_uppbody oscpack ${LIBS} ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES})
-
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -211,6 +214,10 @@ install(TARGETS osc_test
 )
 
 install(TARGETS damitora_osc
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(TARGETS damitora_osc3
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
