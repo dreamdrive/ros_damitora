@@ -47,7 +47,6 @@
 geometry_msgs::Pose poseR;
 geometry_msgs::Pose poseL;
 
-
 // コールバックがあるとグローバルに読み込み
 void trackerR_Callback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
@@ -77,6 +76,16 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "damitora_osc"); // ノードの初期化
   ros::NodeHandle nh;                    // ノードハンドラ
 
+  // rosparamからVMTのOSC送信先を取ってくる
+  std::string vmt_ip;
+  int vmt_port;
+  nh.getParam("/vmt_ip", vmt_ip);
+  nh.getParam("/vmt_port", vmt_port);
+
+  // ROS_ERROR("IP : %s", vmt_ip.c_str());
+  // ROS_ERROR("port : %d", vmt_port);
+
+
   // OSC -----------------------------
 
   int i = 0;
@@ -97,7 +106,7 @@ int main(int argc, char **argv)
   float rotation_z2 = 0.0;
   float rotation_w2 = 1.0;
 
-  UdpTransmitSocket transmitSocket(IpEndpointName(ADDRESS, PORT));
+  UdpTransmitSocket transmitSocket(IpEndpointName(vmt_ip.c_str(), vmt_port));
   char buffer[OUTPUT_BUFFER_SIZE];
 
   // OSC -----------------------------

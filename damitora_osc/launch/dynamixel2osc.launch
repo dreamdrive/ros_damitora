@@ -1,57 +1,58 @@
 <launch>
 
+    <!-- 送信先のVertual Motion TrackerのPCのIPとポート(ポートは標準が39570) -->
+    <param name="vmt_ip" value="192.168.7.106" />
+    <param name="vmt_port" value="39570" />
 
-    <param name="robot_description" textfile="$(find damitora_description)/urdf/damitora.urdf" />
+    <!-- URDFのパスのセット -->
+    <param name="robot_description" textfile="$(find damitora_description)/urdf/damitora5.urdf" />
 
-    <!-- send fake joint values -->
-    <!--
-    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
-    -->
-    
-    <!-- dynamixel controllers -->
+    <!-- dynamixel controllers 起動(その向こう側で、dynamixel_workbench_controllersが起動する) -->
     <include file="$(find damitora_dynamixel)/launch/dynamixel_controllers.launch">
         <arg name="usb_port"                default="/dev/ttyUSB0"/>
         <arg name="dxl_baud_rate"           default="1000000"/>
     </include>
 
-    <!--<node name="static_transform_publisher" pkg="tf" type="static_transform_publisher"  args="0 0 0 0 0 0 map frame 100" />-->
+    <!-- だみとらOSC(トラッカー5個)の起動 -->
     <node name="damitora_osc" pkg="damitora_osc" type="damitora_osc" />
-
-    <!-- Combine joint values -->
     
     <!-- robot_state_publisher -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
         <remap from="joint_states" to="/dynamixel_workbench/joint_states"/>
     </node>
 
-
-    <!-- Show in Rviz   -->
+    <!-- Rviz 起動 -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_description)/rviz/damitora.rviz" />
 
+    <!-- TFをposeに変換するノード(トラッカーの座標・姿勢はここで自動計算) -->
     <node name="pose_tracker_C" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>
         <param name="dst_frame" value="tracker_C_link"/>
         <param name="rate" value="60"/>
     </node>
 
+    <!-- TFをposeに変換するノード(トラッカーの座標・姿勢はここで自動計算) -->
     <node name="pose_tracker_R" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>
         <param name="dst_frame" value="tracker_R_link"/>
         <param name="rate" value="60"/>
     </node>
 
+    <!-- TFをposeに変換するノード(トラッカーの座標・姿勢はここで自動計算) -->
     <node name="pose_tracker_L" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>
         <param name="dst_frame" value="tracker_L_link"/>
         <param name="rate" value="60"/>
     </node>
     
+    <!-- TFをposeに変換するノード(トラッカーの座標・姿勢はここで自動計算) -->
     <node name="pose_tracker_R2" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>
         <param name="dst_frame" value="tracker_R_link2"/>
         <param name="rate" value="60"/>
     </node>
 
+    <!-- TFをposeに変換するノード(トラッカーの座標・姿勢はここで自動計算) -->
     <node name="pose_tracker_L2" pkg="jsk_topic_tools" type="tf_to_pose.py">
         <param name="src_frame" value="world"/>
         <param name="dst_frame" value="tracker_L_link2"/>

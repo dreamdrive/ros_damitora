@@ -15,9 +15,6 @@
 // 
 // だみとらの5つのトラッカー座標をOCSに渡すノード
 // 
-// 
-// 
-// POSEを拾ってOSCにパスする
 
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
@@ -136,6 +133,16 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "damitora_osc"); // ノードの初期化
   ros::NodeHandle nh;                    // ノードハンドラ
 
+  // rosparamからVMTのOSC送信先を取ってくる
+  std::string vmt_ip;
+  int vmt_port;
+  nh.getParam("/vmt_ip", vmt_ip);
+  nh.getParam("/vmt_port", vmt_port);
+
+  // ROS_ERROR("IP : %s", vmt_ip.c_str());
+  // ROS_ERROR("port : %d", vmt_port);
+
+
   // OSC -----------------------------
 
   int i = 0;
@@ -180,10 +187,8 @@ int main(int argc, char **argv)
   float rotation_z4 = 0.0;
   float rotation_w4 = 1.0;
 
-  //(void)argc; // suppress unused parameter warnings
-  //(void)argv; // suppress unused parameter warnings
-
-  UdpTransmitSocket transmitSocket(IpEndpointName(ADDRESS, PORT));
+//  UdpTransmitSocket transmitSocket(IpEndpointName(ADDRESS, PORT));
+  UdpTransmitSocket transmitSocket(IpEndpointName(vmt_ip.c_str(), vmt_port));
   char buffer[OUTPUT_BUFFER_SIZE];
 
   // OSC -----------------------------

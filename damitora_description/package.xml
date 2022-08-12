@@ -3,7 +3,7 @@
   <name>damitora_description</name>
   <version>1.0.0</version>
   <description>The damitora_description package</description>
-  <maintainer email="hirokazu@dream-drive.net">SETOUCHI ROS STUDY GROUP</maintainer>
+  <maintainer email="hirokazu@dream-drive.net">dream drive</maintainer>
   <license>Apache License 2.0</license>
   <buildtool_depend>catkin</buildtool_depend>
   <run_depend>joint_state_publisher</run_depend>

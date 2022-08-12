@@ -38,8 +38,8 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;                          // ノードハンドラ
 
   //パブリッシャの作成 (DynamixelWorkBenchへの指示)
-  ros::Publisher pub_scara_arm_trajectory;
-  pub_scara_arm_trajectory = nh.advertise<trajectory_msgs::JointTrajectory>("/dynamixel_workbench/joint_trajectory", 1);
+  ros::Publisher pub_damitora_trajectory;
+  pub_damitora_trajectory = nh.advertise<trajectory_msgs::JointTrajectory>("/dynamixel_workbench/joint_trajectory", 1);
 
   ros::Rate loop_rate(100); // 制御周期60Hz
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
   jtp0.points[1].positions[10] = 0.0;
   jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間1.0sec
 
-  ROS_INFO("seto_scararobot start!");
+  ROS_INFO("damitora move : start!");
 
   while (ros::ok())
   {
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
     jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間1.0sec
 
     //パブリッシュ (joint_trajectry)
-    pub_scara_arm_trajectory.publish(jtp0);
+    pub_damitora_trajectory.publish(jtp0);
 
     usleep(1000 * 1000);
 
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
     jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間1.0sec
 
     //パブリッシュ (joint_trajectry)
-    pub_scara_arm_trajectory.publish(jtp0);
+    pub_damitora_trajectory.publish(jtp0);
 
     usleep(1000 * 1000);
 

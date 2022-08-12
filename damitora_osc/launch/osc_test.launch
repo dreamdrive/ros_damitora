@@ -1,10 +1,16 @@
 <launch>
+
+    <!-- 送信先のVertual Motion TrackerのPCのIPとポート(ポートは標準が39570) -->
+    <param name="vmt_ip" value="192.168.7.106" />
+    <param name="vmt_port" value="39570" />
+
+    <!-- static_transform_publisher / tf -->
     <node name="static_transform_publisher" pkg="tf" type="static_transform_publisher"  args="0 0 0 0 0 0 map frame 100" />
     
-    <!--  -->
+    <!-- トラッカーテストノード -->
     <node name="osc_test" pkg="damitora_osc" type="osc_test" />
-
-    <!-- Show in Rviz   -->
+        
+    <!-- Rviz 起動 -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find damitora_osc)/rviz/damitra_test.rviz" />
     
 </launch>

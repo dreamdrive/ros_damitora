@@ -31,6 +31,31 @@ $ catkin_make
 
 ### 使い方1 (joint_state_publisherでrviz上のスカラロボットをスライダを動かせます。)
 
+
+$ roslaunch damitora_osc osc_test.launch 
+
+OSCのテスト
+
+$ roslaunch damitora_osc rviz2osc.launch 
+
+
+
+$ roslaunch damitora_osc dynamixel2osc.launch
+$ roslaunch damitora_osc dynamixel2osc_and_move.launch
+
+
+
+$ roslaunch damitora_description display.launch
+$ roslaunch damitora_description display3.launch
+$ roslaunch damitora_description display5.launch
+$ roslaunch damitora_description display3_dynamixel_sync.launch
+
+
+
+
+
+
+
 1. 下記コマンドを実行
 
 ```

@@ -47,6 +47,15 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "osc_test"); // ノードの初期化
   ros::NodeHandle nh;                // ノードハンドラ
 
+  // rosparamからVMTのOSC送信先を取ってくる
+  std::string vmt_ip;
+  int vmt_port;
+  nh.getParam("/vmt_ip", vmt_ip);
+  nh.getParam("/vmt_port", vmt_port);
+
+  // ROS_ERROR("IP : %s", vmt_ip.c_str());
+  // ROS_ERROR("port : %d", vmt_port);
+
   geometry_msgs::PoseStamped poseC;
   geometry_msgs::PoseStamped poseR;
   geometry_msgs::PoseStamped poseL;
@@ -96,7 +105,7 @@ int main(int argc, char **argv)
   float position_z2 = 0.0;
 
 
-  UdpTransmitSocket transmitSocket(IpEndpointName(ADDRESS, PORT));
+  UdpTransmitSocket transmitSocket(IpEndpointName(vmt_ip.c_str(), vmt_port));
   char buffer[OUTPUT_BUFFER_SIZE];
 
   // OSC
