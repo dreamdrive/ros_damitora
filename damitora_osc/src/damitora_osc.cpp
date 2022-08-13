@@ -139,11 +139,11 @@ int main(int argc, char **argv)
   nh.getParam("/vmt_ip", vmt_ip);
   nh.getParam("/vmt_port", vmt_port);
 
-  // ROS_ERROR("IP : %s", vmt_ip.c_str());
-  // ROS_ERROR("port : %d", vmt_port);
+  ROS_DEBUG("IP : %s", vmt_ip.c_str());
+  ROS_DEBUG("port : %d", vmt_port);
 
 
-  // OSC -----------------------------
+  // -----------------------------
 
   int i = 0;
 
@@ -191,7 +191,7 @@ int main(int argc, char **argv)
   UdpTransmitSocket transmitSocket(IpEndpointName(vmt_ip.c_str(), vmt_port));
   char buffer[OUTPUT_BUFFER_SIZE];
 
-  // OSC -----------------------------
+  // -----------------------------
 
   // だみとら表示用
 

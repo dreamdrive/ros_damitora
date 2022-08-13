@@ -53,8 +53,8 @@ int main(int argc, char **argv)
   nh.getParam("/vmt_ip", vmt_ip);
   nh.getParam("/vmt_port", vmt_port);
 
-  // ROS_ERROR("IP : %s", vmt_ip.c_str());
-  // ROS_ERROR("port : %d", vmt_port);
+  ROS_DEBUG("IP : %s", vmt_ip.c_str());
+  ROS_DEBUG("port : %d", vmt_port);
 
   geometry_msgs::PoseStamped poseC;
   geometry_msgs::PoseStamped poseR;
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
   poseL.pose.orientation.z = 0;
   poseL.pose.orientation.w = 1.0;
 
-  // OSC
+  // 
 
   int i = 0;
 
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
   UdpTransmitSocket transmitSocket(IpEndpointName(vmt_ip.c_str(), vmt_port));
   char buffer[OUTPUT_BUFFER_SIZE];
 
-  // OSC
+  // 
 
   ros::Publisher pub_poseC;
   ros::Publisher pub_poseR;

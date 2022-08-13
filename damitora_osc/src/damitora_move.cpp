@@ -69,32 +69,32 @@ int main(int argc, char **argv)
   jtp0.points[1].accelerations.resize(11); // ポーズ→accelerationsを2個設定
   jtp0.points[1].effort.resize(11);        // ポーズ→effortを2個設定
 
-  // 原点ポーズをセット
-  jtp0.points[0].positions[0] = 0.0;
-  jtp0.points[0].positions[1] = 0.0;
-  jtp0.points[0].positions[2] = 0.0; // 0.8は取り付けオフセット
-  jtp0.points[0].positions[3] = 0.0;
-  jtp0.points[0].positions[4] = 0.0;
-  jtp0.points[0].positions[5] = 0.0;
-  jtp0.points[0].positions[6] = 0.0; // 0.8は取り付けオフセット
-  jtp0.points[0].positions[7] = 0.0;
-  jtp0.points[0].positions[8] = 0.0;
-  jtp0.points[0].positions[9] = 0.0;
-  jtp0.points[0].positions[10] = 0.0;                  // 0.8は取り付けオフセット
-  jtp0.points[0].time_from_start = ros::Duration(0.0); //実行時間0.0sec
+  // // 原点ポーズをセット
+  // jtp0.points[0].positions[0] = 0.0;
+  // jtp0.points[0].positions[1] = 0.0;
+  // jtp0.points[0].positions[2] = 0.0;
+  // jtp0.points[0].positions[3] = 0.0;
+  // jtp0.points[0].positions[4] = 0.0;
+  // jtp0.points[0].positions[5] = 0.0;
+  // jtp0.points[0].positions[6] = 0.0;
+  // jtp0.points[0].positions[7] = 0.0;
+  // jtp0.points[0].positions[8] = 0.0;
+  // jtp0.points[0].positions[9] = 0.0;
+  // jtp0.points[0].positions[10] = 0.0;
+  // jtp0.points[0].time_from_start = ros::Duration(0.0); //実行時間0.0sec
 
-  jtp0.points[1].positions[0] = 0.0;
-  jtp0.points[1].positions[1] = 0.0;
-  jtp0.points[1].positions[2] = 0.0;
-  jtp0.points[1].positions[3] = 0.0;
-  jtp0.points[1].positions[4] = 0.0;
-  jtp0.points[1].positions[5] = 0.0;
-  jtp0.points[1].positions[6] = 0.0;
-  jtp0.points[1].positions[7] = 0.0;
-  jtp0.points[1].positions[8] = 0.0;
-  jtp0.points[1].positions[9] = 0.0;
-  jtp0.points[1].positions[10] = 0.0;
-  jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間1.0sec
+  // jtp0.points[1].positions[0] = 0.0;
+  // jtp0.points[1].positions[1] = 0.0;
+  // jtp0.points[1].positions[2] = 0.0;
+  // jtp0.points[1].positions[3] = 0.0;
+  // jtp0.points[1].positions[4] = 0.0;
+  // jtp0.points[1].positions[5] = 0.0;
+  // jtp0.points[1].positions[6] = 0.0;
+  // jtp0.points[1].positions[7] = 0.0;
+  // jtp0.points[1].positions[8] = 0.0;
+  // jtp0.points[1].positions[9] = 0.0;
+  // jtp0.points[1].positions[10] = 0.0;
+  // jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間2.0sec
 
   ROS_INFO("damitora move : start!");
 
@@ -103,20 +103,21 @@ int main(int argc, char **argv)
     
     jtp0.header.stamp = ros::Time::now();
 
-    // 原点ポーズをセット
+    // 1コマ目ポーズをセット
     jtp0.points[0].positions[0] = 0.0;
     jtp0.points[0].positions[1] = 0.0;
-    jtp0.points[0].positions[2] = 0.0; // 0.8は取り付けオフセット
+    jtp0.points[0].positions[2] = 0.0;
     jtp0.points[0].positions[3] = 0.0;
     jtp0.points[0].positions[4] = 0.0;
     jtp0.points[0].positions[5] = 0.0;
-    jtp0.points[0].positions[6] = 0.0; // 0.8は取り付けオフセット
+    jtp0.points[0].positions[6] = 0.0;
     jtp0.points[0].positions[7] = 0.0;
     jtp0.points[0].positions[8] = 0.0;
     jtp0.points[0].positions[9] = 0.0;
-    jtp0.points[0].positions[10] = 0.0;                  // 0.8は取り付けオフセット
+    jtp0.points[0].positions[10] = 0.0;
     jtp0.points[0].time_from_start = ros::Duration(0.0); //実行時間0.0sec
 
+    // 2コマ目ポーズをセット
     jtp0.points[1].positions[0] = 0.0;
     jtp0.points[1].positions[1] = 0.0;
     jtp0.points[1].positions[2] = 0.0;
@@ -128,25 +129,26 @@ int main(int argc, char **argv)
     jtp0.points[1].positions[8] = 0.0;
     jtp0.points[1].positions[9] = 1.0;
     jtp0.points[1].positions[10] = -1.0;
-    jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間1.0sec
+    jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間2.0sec
 
-    //パブリッシュ (joint_trajectry)
+    //パブリッシュ (joint_trajectry) だみとら物理コン動作命令
     pub_damitora_trajectory.publish(jtp0);
 
+    // publish後1秒待つ
     usleep(1000 * 1000);
 
-    // 原点ポーズをセット
+    // 2コマ目ポーズをセット
     jtp0.points[0].positions[0] = 0.0;
     jtp0.points[0].positions[1] = 0.0;
-    jtp0.points[0].positions[2] = 0.0; // 0.8は取り付けオフセット
+    jtp0.points[0].positions[2] = 0.0;
     jtp0.points[0].positions[3] = 0.0;
     jtp0.points[0].positions[4] = 0.0;
     jtp0.points[0].positions[5] = 0.0;
-    jtp0.points[0].positions[6] = 0.0; // 0.8は取り付けオフセット
+    jtp0.points[0].positions[6] = 0.0;
     jtp0.points[0].positions[7] = 0.0;
     jtp0.points[0].positions[8] = 0.0;
     jtp0.points[0].positions[9] = 0.0;
-    jtp0.points[0].positions[10] = 0.0;                  // 0.8は取り付けオフセット
+    jtp0.points[0].positions[10] = 0.0;
     jtp0.points[0].time_from_start = ros::Duration(0.0); //実行時間0.0sec
 
     jtp0.points[1].positions[0] = 0.0;
@@ -160,11 +162,12 @@ int main(int argc, char **argv)
     jtp0.points[1].positions[8] = 0.0;
     jtp0.points[1].positions[9] = -1.0;
     jtp0.points[1].positions[10] = -1.0;
-    jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間1.0sec
+    jtp0.points[1].time_from_start = ros::Duration(2.0); //実行時間2.0sec
 
-    //パブリッシュ (joint_trajectry)
+    //パブリッシュ (joint_trajectry) だみとら物理コン動作命令
     pub_damitora_trajectory.publish(jtp0);
 
+    // publish後1秒待つ
     usleep(1000 * 1000);
 
     ros::spinOnce(); // コールバック関数を呼ぶ
