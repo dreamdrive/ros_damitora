@@ -25,7 +25,7 @@ ROS版だみとらと兄弟の、フリーソフトのだみとら２は下記�
 
 joint_stateで関節角度をの入力を受け付けるため、IMUを用いた自作トラッカーや、全身にポテンショメータを貼り付けた自作トラッカー、その他、RealsenseやOpenPoseなど、いろいろ組み合わせて、ROSで自作トラッカーを製作する助けになる・・・かも・・・しれません。
 
-![damitora02](/Users/hirokazu/Documents/GitHub/ros_damitora/doc_img/damitora02.png)
+![damitora02](doc_img/damitora02.png)
 
 ### インストール
 
