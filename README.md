@@ -12,7 +12,9 @@ Joint_state_publisher_guiを用いて、スライダで人形を制御したり�
 
 ![damitora01](doc_img/damitora01.png)
 
-仮想トラッカーのSteamVRへの入力は、[@gpsnmeajp](https://github.com/gpsnmeajp)氏の [Virtual Motion Tracker](https://gpsnmeajp.github.io/VirtualMotionTrackerDocument/)を利用させていただいております。
+仮想トラッカーのSteamVRへの入力は、[@gpsnmeajp](https://github.com/gpsnmeajp)氏の [Virtual Motion Tracker](https://gpsnmeajp.github.io/VirtualMotionTrackerDocument/)を利用させていただいております。  
+OSC通信のライプラリは、[oscpack](https://code.google.com/archive/p/oscpack/)を使わせていただいております。  
+
 
 ROS版だみとらと兄弟の、フリーソフトのだみとら２は下記、URLにて公開しております。
 
