@@ -123,6 +123,8 @@ int main(int argc, char **argv)
   while (ros::ok())
   {
 
+    // positionに3倍しているのは、上半身ロボットの３倍サイズを送るため
+
     position_x1 = -poseR.position.y * 3;
     position_y1 = poseR.position.z * 3 - 0.9;
     position_z1 = poseR.position.x * 3;

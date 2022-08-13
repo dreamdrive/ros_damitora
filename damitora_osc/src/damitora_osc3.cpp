@@ -199,6 +199,8 @@ int main(int argc, char **argv)
     // Position: ROS(x,y,z) -> Unity(-y,z,x)
     // Quaternion: ROS(x,y,z,w) -> Unity(-y,z,x,-w)
 
+    // positionに7倍しているのは、だいたいだみとら物理コンの７倍サイズが一般男性の平均身長1.7に近いため
+
     position_x = -poseC.position.y * 7;
     position_y = poseC.position.z * 7;
     position_z = poseC.position.x * 7;
